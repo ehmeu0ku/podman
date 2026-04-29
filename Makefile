@@ -11,6 +11,9 @@ GOPATH := $(shell $(GO) env GOPATH)
 GOOS := $(shell $(GO) env GOOS)
 GOARCH := $(shell $(GO) env GOARCH)
 
+# Use nproc to parallelize builds; fall back to 4 if nproc is unavailable
+NPROC ?= $(shell nproc 2>/dev/null || echo 4)
+
 BINDIR ?= /usr/local/bin
 LIBEXECDIR ?= /usr/local/libexec
 MANDIR ?= /usr/local/share/man
@@ -64,7 +67,7 @@ test: unit integration ## Run all tests
 
 .PHONY: unit
 unit: ## Run unit tests
-	$(GO) test -tags "$(GOTAGS)" $(PACKAGES)
+	$(GO) test -tags "$(GOTAGS)" -p $(NPROC) $(PACKAGES)
 
 .PHONY: integration
 integration: ## Run integration tests
