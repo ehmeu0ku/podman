@@ -105,5 +105,6 @@ install-remote: podman-remote ## Install podman-remote binary
 	install -d $(DESTDIR)/$(BINDIR)
 	install -m 755 $(REMOTE_BINARY) $(DESTDIR)/$(BINDIR)/podman-remote
 
-.PHONY: help
-help: ##
+# Convenience target: build, install both binaries in one shot
+.PHONY: install-all
+install-all: install install-remote ## Install both podman and podman-remote binaries
