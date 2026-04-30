@@ -66,8 +66,9 @@ podman-remote: ## Build the podman-remote binary
 test: unit integration ## Run all tests
 
 .PHONY: unit
+# Use -count=1 to disable test result caching, ensuring tests always run fresh
 unit: ## Run unit tests
-	$(GO) test -tags "$(GOTAGS)" -p $(NPROC) $(PACKAGES)
+	$(GO) test -tags "$(GOTAGS)" -count=1 -p $(NPROC) $(PACKAGES)
 
 .PHONY: integration
 integration: ## Run integration tests
@@ -106,4 +107,4 @@ install-remote: podman-remote ## Install podman-remote binary
 .PHONY: help
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+		awk '
