@@ -67,8 +67,9 @@ test: unit integration ## Run all tests
 
 .PHONY: unit
 # Use -count=1 to disable test result caching, ensuring tests always run fresh
+# Use -v for verbose output so failures are easier to diagnose locally
 unit: ## Run unit tests
-	$(GO) test -tags "$(GOTAGS)" -count=1 -p $(NPROC) $(PACKAGES)
+	$(GO) test -tags "$(GOTAGS)" -count=1 -v -p $(NPROC) $(PACKAGES)
 
 .PHONY: integration
 integration: ## Run integration tests
@@ -105,6 +106,4 @@ install-remote: podman-remote ## Install podman-remote binary
 	install -m 755 $(REMOTE_BINARY) $(DESTDIR)/$(BINDIR)/podman-remote
 
 .PHONY: help
-help: ## Show this help message
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk '
+help: ##
