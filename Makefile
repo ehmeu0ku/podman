@@ -97,6 +97,12 @@ install: ## Install podman binary
 	install -d $(DESTDIR)/$(BINDIR)
 	install -m 755 $(BINARY) $(DESTDIR)/$(BINDIR)/podman
 
+# Also install podman-remote when running 'make install', useful for my dev workflow
+.PHONY: install-remote
+install-remote: podman-remote ## Install podman-remote binary
+	install -d $(DESTDIR)/$(BINDIR)
+	install -m 755 $(REMOTE_BINARY) $(DESTDIR)/$(BINDIR)/podman-remote
+
 .PHONY: help
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
